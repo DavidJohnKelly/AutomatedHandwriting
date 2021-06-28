@@ -1,7 +1,6 @@
 import argparse
 import json
 import os
-import shutil
 from typing import Tuple, List
 
 import cv2
@@ -139,7 +138,7 @@ def infer(model: Model, fn_img: Path) -> None:
 # Slightly edited to allow for custom file names to be analysed
 def main():
     """Main function."""
-    CharacterFile=""
+    CharacterFile = ""
     Files = os.listdir("../data/characters/")
     for File in Files:
         if "Cropped" in File:
@@ -153,7 +152,8 @@ def main():
         parser.add_argument('--batch_size', help='Batch size.', type=int, default=100)
         parser.add_argument('--data_dir', help='Directory containing IAM dataset.', type=Path, required=False)
         parser.add_argument('--fast', help='Load samples from LMDB.', action='store_true')
-        parser.add_argument('--line_mode', help='Train to read text lines instead of single words.', action='store_true')
+        parser.add_argument('--line_mode', help='Train to read text lines instead of single words.',
+                            action='store_true')
         parser.add_argument('--img_file', help='Image used for inference.', type=Path,
                             default='../data/characters/{}'.format(CharacterFile))
         parser.add_argument('--early_stopping', help='Early stopping epochs.', type=int, default=25)
@@ -197,22 +197,33 @@ def main():
             Character = infer(model, args.img_file)
             if Character == '"':
                 Character = "SM"
-            elif Character == "?":
-                Character == "QM"
-            elif Character == "/":
+            if Character == "?":
+                Character = "QM"
+            if Character == "/":
                 Character = "FS"
-            elif Character == '\\':
+            if Character == '\\':
                 Character = "BS"
-            elif Character == "*":
+            if Character == "*":
                 Character = "AS"
-            elif Character == "<":
+            if Character == "<":
                 Character = "LT"
-            elif Character == ">":
+            if Character == ">":
                 Character = "GT"
-            elif Character == "|":
+            if Character == "|":
                 Character = "VL"
-            shutil.copy("../data/characters/" + CharacterFile, "../data/characters/" + Character + ".png")
-            os.remove("../data/characters/" + CharacterFile)
+
+            try:
+                os.rename("../data/characters/" + CharacterFile, "../data/characters/" + Character + ".png")
+            except IOError:
+                NewFile = False
+                Counter = 1
+                while not NewFile:
+                    try:
+                        os.rename("../data/characters/" + CharacterFile,
+                                  "../data/characters/{}{}.png".format(Character, "." * Counter))
+                        NewFile = True
+                    except IOError:
+                        Counter = Counter + 1
 
 
 if __name__ == '__main__':
