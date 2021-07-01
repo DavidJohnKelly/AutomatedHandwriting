@@ -3,7 +3,7 @@ import subprocess
 import threading
 import tkinter as tk
 from tkinter import filedialog, messagebox
-
+from writer import filewrite
 from PIL import Image, ImageFilter, ImageTk
 
 colours = ((255, 255, 255, "white"),
@@ -190,29 +190,42 @@ class App(threading.Thread):
             return os.listdir("data/characters/")
 
         # Function for opening the file explorer window
-        def browseFiles():
+        def browseImageFiles():
             filename = filedialog.askopenfilename(initialdir="/",
                                                   title="Select a Character Set",
                                                   filetypes=(("PNG Files",
                                                               "*.png*"),
                                                              ("JPEG Files",
-                                                              "*.jpeg*"),
-                                                             ("All Files",
-                                                              "*.*")))
+                                                              "*.jpeg*")
+                                                             ))
+
+            # Change label contents
+            label_file_explorer.configure(text="File Opened: " + os.path.abspath(filename))
+
+        def browseTextFiles():
+            filename = filedialog.askopenfilename(initialdir="/",
+                                                  title="Select a Character Set",
+                                                  filetypes=(("TXT Files",
+                                                              "*.txt*"),
+                                                             ))
 
             # Change label contents
             label_file_explorer.configure(text="File Opened: " + os.path.abspath(filename))
 
         def startMain():
-            self.filepath = label_file_explorer.cget("text").replace("File Opened: ", "")
-            th = threading.Thread(target=startAnalysis())
-            th.start()
+            if ".png" in label_file_explorer.cget("text") or ".jpeg" in label_file_explorer.cget("text"):
+                self.filepath = label_file_explorer.cget("text").replace("File Opened: ", "")
+                th = threading.Thread(target=startAnalysis())
+                th.start()
 
         def initialiseCharacterVerification():
             global CharacterCounter
             CharacterCounter = 0
             CharacterSet = getCharacterSet()
 
+            '''
+                Updates the character image and text for each character after confirm is pressed
+            '''
             def updateWindow(Set):
                 global CharacterCounter
 
@@ -243,6 +256,10 @@ class App(threading.Thread):
                     messagebox.showinfo("ALERT", "All character verified")
                     CharacterWindow.destroy()
 
+
+            '''
+                Creating a separate window for the character verification process
+            '''
             CharacterWindow = tk.Toplevel()
             CharacterImage = ImageTk.PhotoImage(Image.open("data/characters/" + CharacterSet[0]))
             CharacterPanel = tk.Label(CharacterWindow, image=CharacterImage)
@@ -259,8 +276,8 @@ class App(threading.Thread):
             ConfirmButton.grid(column=4, row=2)
 
         button_explore = tk.Button(self.root,
-                                   text="Browse Files",
-                                   command=browseFiles)
+                                   text="Browse Image Files",
+                                   command=browseImageFiles)
 
         button_start = tk.Button(self.root,
                                  text="Start Character Analysis",
@@ -269,6 +286,15 @@ class App(threading.Thread):
         button_verify = tk.Button(self.root,
                                   text="Verify Characters",
                                   command=initialiseCharacterVerification)
+
+        button_content = tk.Button(self.root,
+                                   text="Select a Text File",
+                                   command=browseTextFiles)
+
+        button_CreateFile = tk.Button(self.root,
+                                      text="Create a Handwritten File",
+                                      command=lambda: filewrite(
+                                          label_file_explorer.cget("text").replace("File Opened: ", "")))
 
         button_exit = tk.Button(self.root,
                                 text="Exit",
@@ -283,7 +309,9 @@ class App(threading.Thread):
         button_explore.grid(column=1, row=2)
         button_start.grid(column=1, row=3)
         button_verify.grid(column=1, row=4)
-        button_exit.grid(column=1, row=5)
+        button_content.grid(column=1, row=5)
+        button_CreateFile.grid(column=1, row=6)
+        button_exit.grid(column=1, row=7)
 
         # Let the window wait for any events
         self.root.mainloop()
