@@ -39,6 +39,16 @@ pip install -r (Path)\AutomatedHandwriting\requirements.txt
 5. Select Create a Handwritten File
    5a. The file will be saved as page.HTML. This will overwrite any existing file so ensure that if you want multiple files, you save them elsewhere first
 
+## Example
+- Select Character File
+![image](https://user-images.githubusercontent.com/79090791/124121253-966d4a00-da6c-11eb-9046-04fae7096f72.png)
+- See the resulting character set
+![image](https://user-images.githubusercontent.com/79090791/124120923-3676a380-da6c-11eb-980d-43fef45748e0.png)
+- Select a text file
+![image](https://user-images.githubusercontent.com/79090791/124122300-d8e35680-da6d-11eb-8d53-37ed10984b21.png)
+- See result
+![image](https://user-images.githubusercontent.com/79090791/124122391-ef89ad80-da6d-11eb-86f7-0ec5cb7bbc9d.png)
+
 ## License
 
 MIT
