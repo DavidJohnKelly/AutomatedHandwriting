@@ -41,7 +41,7 @@ pip install -r (Path)\AutomatedHandwriting\requirements.txt
 
 ## Example
 - Select Character File
-![image](https://user-images.githubusercontent.com/79090791/124121253-966d4a00-da6c-11eb-9046-04fae7096f72.png | width = 200 )
+![image  width = 200](https://user-images.githubusercontent.com/79090791/124121253-966d4a00-da6c-11eb-9046-04fae7096f72.png)
 - See the resulting character set
 ![image](https://user-images.githubusercontent.com/79090791/124120923-3676a380-da6c-11eb-980d-43fef45748e0.png)
 - Select a text file
