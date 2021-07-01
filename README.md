@@ -18,7 +18,7 @@ Automated Handwriting uses a number of open source projects to work properly:
 
 ## Installation
 
-AutomatedHandwriting requires [Python 3](https://www.python.org/downloads//) v3.8+ to run.
+Automated Handwriting requires [Python 3](https://www.python.org/downloads//) v3.8+ to run.
 
 Install the dependencies.
 
