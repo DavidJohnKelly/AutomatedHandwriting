@@ -4,7 +4,7 @@
 
 ## Features
 
-- Import an image of a set of handwritten characters and TensorFlow will automatically assign the correct character
+- Import an image of a set of handwritten characters and TensorFlow will automatically assign the correct character to each generated character image file
 - Import a text file and it will generate a HTML file with your created characters with random variance where applicable
 
 
